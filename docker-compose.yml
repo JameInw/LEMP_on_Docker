@@ -1,0 +1,59 @@
+version: '3'
+
+networks:
+  lemp_docker:
+
+services:
+  php:
+    container_name: lemp_php
+    build: php/
+    restart: unless-stopped
+    volumes:
+      - ./html/:/var/www/html
+    ports:
+      - '9000:9000'
+    depends_on:
+      - db
+    networks:
+      - lemp_docker
+
+  adminer:
+    container_name: lemp_adminer
+    image: adminer:standalone
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    networks:
+      - lemp_docker
+
+  nginx:
+    container_name: lemp_nginx
+    image: nginx:stable-alpine
+    restart: unless-stopped
+    volumes:
+      - ./html/:/var/www/html
+
+      - ./nginx/conf/nginx.conf:/etc/nginx/conf/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+
+    ports:
+      - "80:80"
+    networks:
+      - lemp_docker
+      
+  db:
+    container_name: lemp_mariadb
+    image: mariadb:latest
+    restart: unless-stopped
+    volumes:
+      - ./mariadb/initdb/:/docker-entrypoint-initdb.d
+      - ./mariadb/data/:/var/lib/mysql/
+    environment:
+      - MYSQL_ROOT_PASSWORD=0862657328zz
+      - MYSQL_DATABASE=devops_db
+      - MYSQL_USER=devops
+      - MYSQL_PASSWORD=devops101
+    ports:
+      - "3306:3306"
+    networks:
+      - lemp_docker
