@@ -24,8 +24,11 @@
    ``` bash
    docker-compose up -d
    ```
+   ![Screenshot 3](Img/3.png)
 4. **Check Docker Process**
    ``` bash
    docker ps
    ```
-5. **Open a web browser and enter the ip that Docker is running on.** 
+   ![Screenshot 4](Img/4.png)
+5. **Open a web browser and enter the ip that Docker is running on.**
+   ![Screenshot 5](Img/5.png)
